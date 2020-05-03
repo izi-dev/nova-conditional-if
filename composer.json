@@ -1,0 +1,33 @@
+{
+    "name": "izi-dev/conditional-field",
+    "description": "Conditional Field",
+    "keywords": [
+        "laravel",
+        "nova",
+        "conditional",
+        "dependency",
+        "visible",
+        "field"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "IziDev\\ConditionalField\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IziDev\\ConditionalField\\ConditionalFieldProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

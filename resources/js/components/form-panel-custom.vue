@@ -127,13 +127,11 @@
                 return attribute;
             },
             componentIsDependency(component) {
-                if (component.field === undefined) {
-                    return false;
-                }
+                if (component.field === undefined) return false;
 
                 return this.getFieldsDependency.filter(field => component.field.attribute === (field)).length !== 0;
             },
-            update() {
+            async update() {
                 let vm = this;
 
                 vm.fields
@@ -144,7 +142,8 @@
                         Nova.request()
                             .post(`/nova-vendor/conditional-field/condition/${vm.resourceName}`, {
                                 attribute: field.attribute,
-                                values: values
+                                values: values,
+                                resourceId: this.resourceId,
                             })
                             .then(function (data) {
                                 vm.visibleFields.find(model => model.attribute == field.attribute).visible = data.data.result;
@@ -176,7 +175,7 @@
         computed: {
             watchedComponents() {
                 return this.$children
-                    .find(component => component.$children.length === this.fields.length)
+                    .find(component => component.$children.length != 0)
                     .$children
                     .filter(component => this.componentIsDependency(component));
             },

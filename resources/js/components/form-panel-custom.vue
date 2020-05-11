@@ -174,10 +174,13 @@
         },
         computed: {
             watchedComponents() {
-                return this.$children
-                    .find(component => component.$children.length != 0)
-                    .$children
-                    .filter(component => this.componentIsDependency(component));
+                let parent = this.$children.find(component => component.$children.length != 0)
+
+                if (parent == null) {
+                    return [];
+                }
+
+                return parent.$children.filter(component => this.componentIsDependency(component));
             },
             getFieldsDependency() {
                 let fields = [];

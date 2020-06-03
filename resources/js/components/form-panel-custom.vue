@@ -167,7 +167,7 @@
                 this.fields.forEach(field => {
                     this.visibleFields.push({
                         attribute: field.attribute,
-                        visible: true
+                        visible: field.dependsOn != undefined ? false : true
                     });
                 });
             }

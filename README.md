@@ -60,4 +60,4 @@ class Page extends Resource
 
 ### License
 
-The MIT License (MIT). Please see [License File](https://github.com/epartment/nova-dependency-container/blob/master/LICENSE.md) for more information.
+The MIT License (MIT)

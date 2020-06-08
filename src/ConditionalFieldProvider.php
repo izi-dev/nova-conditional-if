@@ -31,7 +31,7 @@ class ConditionalFieldProvider extends ServiceProvider
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-sortable', __DIR__ . '/../dist/js/tool.js');
+            Nova::script('depends-on-field', __DIR__.'/../dist/js/tool.js');
         });
     }
 

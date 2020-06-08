@@ -2,10 +2,12 @@
 
 namespace IziDev\ConditionalField;
 
+use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Fields\Field;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use IziDev\ConditionalField\Http\Middleware\Authorize;
+use Laravel\Nova\Nova;
 
 class ConditionalFieldProvider extends ServiceProvider
 {
@@ -27,6 +29,10 @@ class ConditionalFieldProvider extends ServiceProvider
                 return $this->withMeta(['dependsOn' => $fields]);
             });
         });
+
+        Nova::serving(function (ServingNova $event) {
+            Nova::script('nova-sortable', __DIR__ . '/../dist/js/tool.js');
+        });
     }
 
     /**
@@ -40,7 +46,7 @@ class ConditionalFieldProvider extends ServiceProvider
             return;
         }
 
-        Route::middleware(['nova', Authorize::class])
+        Route::middleware(['nova'])
                 ->prefix('nova-vendor/conditional-field')
                 ->namespace('IziDev\ConditionalField\Http\Controllers')
                 ->group(__DIR__.'/../routes/api.php');

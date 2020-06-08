@@ -20,26 +20,6 @@ composer require izi-dev/nova-conditional-field
 
 ### Usage
 
-Then, you will need to register the tool within the NovaServiceProvider.php:
-
-
-```php
-use IziDev\ConditionalField\ConditionalFieldTool;
-
-/**
- * Get the tools that should be listed in the Nova sidebar.
- *
- * @return array
- */
-public function tools()
-{
-    return [
-        // other tools
-        new ConditionalFieldTool,
-    ];
-}
-```
-
 ```php
 class Page extends Resource
 {

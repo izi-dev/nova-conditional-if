@@ -138,16 +138,52 @@
                     .filter(field => field.dependsOn != undefined)
                     .forEach(field => {
                         let values = field.dependsOn.map(attribute => vm.getValueComponentDependency(attribute));
+                        this.executeValidation(values, field);
+                    });
+            },
+            executeValidation(values, field) {
+                let vm = this;
 
-                        Nova.request()
-                            .post(`/nova-vendor/conditional-field/condition/${vm.resourceName}`, {
-                                attribute: field.attribute,
-                                values: values,
-                                resourceId: this.resourceId,
-                            })
-                            .then(function (data) {
-                                vm.visibleFields.find(model => model.attribute == field.attribute).visible = data.data.result;
-                            });
+                if (field.condition === undefined) {
+                    vm.executeValitadionCallable(values, field);
+                    return;
+                }
+
+                if (typeof field.condition === 'string') {
+                    vm.visibleFields.find(model => model.attribute == field.attribute).visible = vm.executeValidationString(values, field);
+                    return;
+                }
+            },
+            executeValidationString(values, field) {
+
+                let vars = values.map(item => {
+                    return {
+                        "field" : "_value." + item.attribute,
+                        "value" : item.value
+                    }
+                });
+
+                let condition = field.condition;
+
+                for (let i = 0; i < vars.length; i++) {
+                    if(condition.includes(vars[i].field)) {
+                        condition = condition.replace(vars[i].field, `'${vars[i].value}'`)
+                    }
+                }
+
+                return eval(condition);
+            },
+            executeValitadionCallable(values, field) {
+                let vm = this;
+
+                Nova.request()
+                    .post(`/nova-vendor/conditional-field/condition/${vm.resourceName}`, {
+                        attribute: field.attribute,
+                        values: values,
+                        resourceId: this.resourceId,
+                    })
+                    .then(function (data) {
+                        vm.visibleFields.find(model => model.attribute == field.attribute).visible = data.data.result;
                     });
             },
             getValueComponentDependency(attribute) {

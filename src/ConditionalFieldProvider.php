@@ -23,15 +23,20 @@ class ConditionalFieldProvider extends ServiceProvider
         });
 
         $this->app->booted(function () {
-            Field::macro('if', function (array $fields, $callback) {
-                $this->condition = $callback;
+            Field::macro('if', function (array $fields, $condition) {
 
-                return $this->withMeta(['dependsOn' => $fields]);
+                if (is_callable($condition)) {
+                    $this->condition = $condition;
+
+                    return $this->withMeta(['dependsOn' => $fields]);
+                }
+
+                return $this->withMeta(['dependsOn' => $fields, "condition" => $condition]);
             });
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('depends-on-field', __DIR__.'/../dist/js/tool.js');
+            Nova::script('depends-on-field', __DIR__ . '/../dist/js/tool.js');
         });
     }
 
@@ -47,9 +52,9 @@ class ConditionalFieldProvider extends ServiceProvider
         }
 
         Route::middleware(['nova'])
-                ->prefix('nova-vendor/conditional-field')
-                ->namespace('IziDev\ConditionalField\Http\Controllers')
-                ->group(__DIR__.'/../routes/api.php');
+            ->prefix('nova-vendor/conditional-field')
+            ->namespace('IziDev\ConditionalField\Http\Controllers')
+            ->group(__DIR__ . '/../routes/api.php');
     }
 
     /**

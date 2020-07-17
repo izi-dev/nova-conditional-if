@@ -30,9 +30,14 @@ class Page extends Resource
             
             Select::make(__('Type'), 'type')
                 ->options([]),
+            //Condition in BACKEND
 
             KeyValue::make(__('Options'), 'option')
-                ->if(['type'], fn($value) => $value['type'] === 'value'))
+                ->if(['type'], fn($value) => $value['type'] === 'value')
+            
+            //Condition in FRONT
+                ->if(['type'], "_value.name === 'value'")
+
         ];
     }
 }

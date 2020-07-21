@@ -36,7 +36,7 @@ class Page extends Resource
                 ->if(['type'], fn($value) => $value['type'] === 'value')
             
             //Condition in FRONT
-                ->if(['type'], "_value.name === 'value'")
+                ->if(['type'], "_value.type === 'value'")
 
         ];
     }

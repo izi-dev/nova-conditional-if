@@ -17,7 +17,7 @@
         }"
                 v-for="(field, index) in panel.fields"
                 :key="index"
-                v-if="getVisibleComponent(field)"
+                v-show="getVisibleComponent(field)"
                 :is="`${mode}-${field.component}`"
                 :errors="validationErrors"
                 :resource-id="resourceId"

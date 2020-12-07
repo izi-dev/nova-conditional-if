@@ -185,13 +185,28 @@
                     .then(function (data) {
                         vm.visibleFields.find(model => model.attribute == field.attribute).visible = data.data.result;
                     });
-            },
+			},
+			getComponentValue(component) {
+				let value;
+				switch (component.field.component) {
+					case 'belongs-to-many-field':
+					case 'belongs-to-field':
+						value = component.selectedResource.value;
+						break;
+					case 'morph-to-field':
+						value = component.fieldTypeName;
+						break;
+					default:
+						value = component.value;
+				}
+				return value;
+			},			
             getValueComponentDependency(attribute) {
                 let component = this.watchedComponents.find(component => component.field.attribute === attribute);
 
                 return {
                     'attribute': component.field.attribute,
-                    'value': component.value
+                    'value': this.getComponentValue(component)
                 };
             },
             getVisibleComponent(field) {

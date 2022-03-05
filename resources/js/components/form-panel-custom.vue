@@ -30,6 +30,7 @@
                 @file-deleted="$emit('update-last-retrieved-at-timestamp')"
                 @file-upload-started="$emit('file-upload-started')"
                 @file-upload-finished="$emit('file-upload-finished')"
+                :show-help-text="field.helpText != null"
             />
         </card>
     </div>
@@ -200,7 +201,7 @@
 						value = component.value;
 				}
 				return value;
-			},			
+			},
             getValueComponentDependency(attribute) {
                 let component = this.watchedComponents.find(component => component.field.attribute === attribute);
 
